@@ -1,7 +1,6 @@
 package it.eliasandandrea.chathub.shared.protocol;
 
-import java.io.Serializable;
-
+// Used for structuring the code
 public interface ClientEvent extends Event {
 
 }

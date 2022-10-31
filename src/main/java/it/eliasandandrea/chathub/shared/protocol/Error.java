@@ -1,6 +1,6 @@
 package it.eliasandandrea.chathub.shared.protocol;
 
-public class Error implements ClientEvent, ServerEvent {
+public class Error implements Event {
 
     private final String exceptionClass;
     private final String exceptionMessage;

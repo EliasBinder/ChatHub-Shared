@@ -30,8 +30,8 @@ public class CryptManager {
         }
     }
 
-    private final PublicKey publicKey;
-    private final PrivateKey privateKey;
+    public final PublicKey publicKey;
+    public final PrivateKey privateKey;
     private final Cipher decryptionCipher;
 
     public CryptManager(Path pub, Path priv, String password) throws Exception {

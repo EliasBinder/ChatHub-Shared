@@ -19,4 +19,8 @@ public class Packet implements Serializable {
     public byte[] getData() {
         return data;
     }
+
+    public Serializable getSerializable() {
+        return (Serializable) ObjectByteConverter.deserialize(data);
+    }
 }

@@ -18,5 +18,4 @@ public class User extends ChatEntity{
     public String getUsername() {
         return username;
     }
-
 }

@@ -33,5 +33,21 @@ public class Group extends ChatEntity{
         return CryptManager.bytesToPrivateKey(privateKey);
     }
 
+    public void addUser(User user) {
+        LinkedList<User> users = new LinkedList<>();
+        for (User u : participants)
+            users.add(u);
+        users.add(user);
+        participants = users.toArray(new User[0]);
+    }
+
+    public void removeUser(User user) {
+        LinkedList<User> users = new LinkedList<>();
+        for (User u : participants)
+            if (!u.getUUID().equals(user.getUUID()))
+                users.add(u);
+        participants = users.toArray(new User[0]);
+    }
+
 
 }

@@ -18,4 +18,12 @@ public abstract class ChatEntity implements Serializable {
         return CryptManager.bytesToPublicKey(publicKey);
     }
 
+    @Override
+    public boolean equals(Object obj) {
+        if (obj instanceof ChatEntity) {
+            ChatEntity chatEntity = (ChatEntity) obj;
+            return chatEntity.getUUID().equals(UUID);
+        }
+        return false;
+    }
 }

@@ -8,9 +8,8 @@ public final class SocketStreams {
     private SocketStreams() {
     }
 
-    public static byte[] readFully(final Socket socket) {
-
-        try (final DataInputStream dis = new DataInputStream(socket.getInputStream())) {
+    public static byte[] readFully(final DataInputStream dis) {
+        try {
             int messageLength = dis.readInt();
             return dis.readNBytes(messageLength);
         } catch (IOException e) {
@@ -19,18 +18,17 @@ public final class SocketStreams {
         return null;
     }
 
-    public static Object readObject(final Socket socket) {
-        byte[] data = readFully(socket);
-        return ObjectByteConverter.deserialize(data);
+    public static Serializable readObject(final DataInputStream dis) {
+        byte[] data = readFully(dis);
+        return (Serializable) ObjectByteConverter.deserialize(data);
     }
 
-    public static void writeObject(final Socket socket, final Object object) {
+    public static void writeObject(final DataOutputStream dos, final Serializable object) {
         try {
-            final DataOutputStream os =
-                    new DataOutputStream(socket.getOutputStream());
             byte[] data = ObjectByteConverter.serialize(object);
-            os.writeInt(data.length);
-            os.write(data);
+            dos.writeInt(data.length);
+            dos.write(data);
+            dos.flush();
         } catch (IOException e) {
             Log.warning("Could not write object to socket", e);
         }

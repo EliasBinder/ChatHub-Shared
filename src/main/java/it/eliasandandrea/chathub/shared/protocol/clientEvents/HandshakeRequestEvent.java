@@ -9,7 +9,7 @@ public class HandshakeRequestEvent implements ClientEvent {
 
     public byte[] publicKey;
 
-    public HandshakeRequestEvent(PublicKey publicKey, String username) {
+    public HandshakeRequestEvent(PublicKey publicKey) {
         this.publicKey = publicKey.getEncoded();
     }
 

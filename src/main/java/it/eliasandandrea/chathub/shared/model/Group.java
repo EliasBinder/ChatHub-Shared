@@ -2,11 +2,12 @@ package it.eliasandandrea.chathub.shared.model;
 
 import it.eliasandandrea.chathub.shared.crypto.CryptManager;
 
+import java.io.Serializable;
 import java.security.PrivateKey;
 import java.security.PublicKey;
 import java.util.LinkedList;
 
-public class Group extends ChatEntity{
+public class Group extends ChatEntity implements Serializable {
 
     public String name;
     public User[] participants;

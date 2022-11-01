@@ -1,9 +1,11 @@
 package it.eliasandandrea.chathub.shared.protocol.sharedEvents;
 
 import it.eliasandandrea.chathub.shared.crypto.CryptManager;
+import it.eliasandandrea.chathub.shared.crypto.EncryptedObjectPacket;
 import it.eliasandandrea.chathub.shared.model.ChatEntity;
 import it.eliasandandrea.chathub.shared.protocol.ClientEvent;
 import it.eliasandandrea.chathub.shared.protocol.Message;
+import it.eliasandandrea.chathub.shared.util.ObjectByteConverter;
 
 import java.security.PrivateKey;
 
@@ -14,7 +16,7 @@ public class MessageEvent implements ClientEvent {
 
     public MessageEvent(ChatEntity receiverUUID, Message message) throws Exception {
         this.receiverUUID = receiverUUID.getUUID();
-        this.encryptedMessageObject = CryptManager.encrypt(message, receiverUUID.getPublicKey());
+        this.encryptedMessageObject = ObjectByteConverter.serialize(CryptManager.encrypt(message, receiverUUID.getPublicKey()));
     }
 
     public String getReceiverUUID() {
@@ -22,7 +24,8 @@ public class MessageEvent implements ClientEvent {
     }
 
     public Message getMessage(PrivateKey privateKey) throws Exception {
-        return CryptManager.decryptMessage(encryptedMessageObject, privateKey);
+        EncryptedObjectPacket encryptedObjectPacket = (EncryptedObjectPacket) ObjectByteConverter.deserialize(encryptedMessageObject);
+        return (Message) CryptManager.decryptToObjectWithKey(encryptedObjectPacket, privateKey);
     }
 
 }

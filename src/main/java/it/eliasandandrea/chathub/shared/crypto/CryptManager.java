@@ -49,13 +49,13 @@ public class CryptManager {
         return publicKey;
     }
 
-    public static byte[] encrypt(Serializable toEncrypt, PublicKey publicKey) throws IllegalBlockSizeException,
+    public static EncryptedObjectPacket encrypt (Serializable toEncrypt, PublicKey publicKey) throws IllegalBlockSizeException,
             BadPaddingException, NoSuchPaddingException, NoSuchAlgorithmException, InvalidKeyException {
         final byte[] serialized = ObjectByteConverter.serialize(toEncrypt);
         return encrypt(serialized, publicKey);
     }
 
-    public static byte[] encrypt(byte[] byteArray, PublicKey publicKey) throws IllegalBlockSizeException,
+    public static EncryptedObjectPacket encrypt (byte[] byteArray, PublicKey publicKey) throws IllegalBlockSizeException,
             BadPaddingException, NoSuchPaddingException, NoSuchAlgorithmException, InvalidKeyException {
         final KeyGenerator aesGen = KeyGenerator.getInstance("AES");
         aesGen.init(128);
@@ -68,33 +68,32 @@ public class CryptManager {
         final Cipher keyEncryptor = Cipher.getInstance("RSA/ECB/PKCS1Padding");
         keyEncryptor.init(Cipher.PUBLIC_KEY, publicKey);
         final byte[] encryptedSymmetricKey = keyEncryptor.doFinal(symmetricKey.getEncoded());
-        final EncryptedObjectPacket packet = new EncryptedObjectPacket(
-                byteArray, encryptedSymmetricKey);
-        return ObjectByteConverter.serialize(packet);
+        return new EncryptedObjectPacket(byteArray, encryptedSymmetricKey);
     }
 
     public Object decryptToObject(EncryptedObjectPacket packet) throws IllegalBlockSizeException, BadPaddingException, ClassCastException, NoSuchAlgorithmException, NoSuchPaddingException, InvalidKeyException {
         return ObjectByteConverter.deserialize(decrypt(packet));
     }
 
+    public static Object decryptToObjectWithKey(EncryptedObjectPacket packet, PrivateKey privateKey) throws NoSuchPaddingException, IllegalBlockSizeException, NoSuchAlgorithmException, BadPaddingException, InvalidKeyException {
+        return ObjectByteConverter.deserialize(decryptWithKey(packet, privateKey));
+    }
+
     public byte[] decrypt(EncryptedObjectPacket packet) throws IllegalBlockSizeException, BadPaddingException, NoSuchPaddingException, NoSuchAlgorithmException, InvalidKeyException {
+        return decryptWithKey(packet, this.privateKey);
+    }
+
+    public static byte[] decryptWithKey(EncryptedObjectPacket packet, PrivateKey privateKey) throws NoSuchPaddingException, NoSuchAlgorithmException, IllegalBlockSizeException, BadPaddingException, InvalidKeyException {
         if (packet == null) {
             return null;
         }
         final Cipher keyDecryptor = Cipher.getInstance("RSA/ECB/PKCS1Padding");
-        keyDecryptor.init(Cipher.PRIVATE_KEY, this.privateKey);
+        keyDecryptor.init(Cipher.PRIVATE_KEY, privateKey);
         final SecretKey symmetricKey = new SecretKeySpec(
                 keyDecryptor.doFinal(packet.getEncryptedSymmetricKey()), "AES");
         final Cipher dataDecryptor = Cipher.getInstance("AES");
         dataDecryptor.init(Cipher.DECRYPT_MODE, symmetricKey);
         return dataDecryptor.doFinal(packet.getEncryptedData());
-    }
-
-    public static Message decryptMessage(byte[] encryptedMessage, PrivateKey privateKey) throws Exception {
-        final Cipher cipher = Cipher.getInstance("RSA");
-        cipher.init(Cipher.DECRYPT_MODE, privateKey);
-        final byte[] decryptedMessage = cipher.doFinal(encryptedMessage);
-        return (Message) ObjectByteConverter.deserialize(decryptedMessage);
     }
 
     private static byte[] encryptPrivateKey(PrivateKey privateKey, String password)

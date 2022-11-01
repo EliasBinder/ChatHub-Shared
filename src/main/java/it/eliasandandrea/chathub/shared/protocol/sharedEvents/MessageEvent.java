@@ -13,10 +13,12 @@ import java.security.PrivateKey;
 public class MessageEvent implements ClientEvent, ServerEvent {
 
     public String receiverUUID;
+    public String senderUUID;
     public byte[] encryptedMessageObject; //encrypted <? implements Message> object
 
-    public MessageEvent(ChatEntity receiverUUID, Message message) throws Exception {
+    public MessageEvent(String senderUUID, ChatEntity receiverUUID, Message message) throws Exception {
         this.receiverUUID = receiverUUID.getUUID();
+        this.senderUUID = senderUUID;
         this.encryptedMessageObject = ObjectByteConverter.serialize(CryptManager.encrypt(message, receiverUUID.getPublicKey()));
     }
 

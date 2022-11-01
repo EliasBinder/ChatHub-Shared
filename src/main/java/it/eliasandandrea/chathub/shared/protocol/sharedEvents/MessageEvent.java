@@ -5,11 +5,12 @@ import it.eliasandandrea.chathub.shared.crypto.EncryptedObjectPacket;
 import it.eliasandandrea.chathub.shared.model.ChatEntity;
 import it.eliasandandrea.chathub.shared.protocol.ClientEvent;
 import it.eliasandandrea.chathub.shared.protocol.Message;
+import it.eliasandandrea.chathub.shared.protocol.ServerEvent;
 import it.eliasandandrea.chathub.shared.util.ObjectByteConverter;
 
 import java.security.PrivateKey;
 
-public class MessageEvent implements ClientEvent {
+public class MessageEvent implements ClientEvent, ServerEvent {
 
     public String receiverUUID;
     public byte[] encryptedMessageObject; //encrypted <? implements Message> object

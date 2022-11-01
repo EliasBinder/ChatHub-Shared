@@ -7,7 +7,7 @@ import java.security.PublicKey;
 
 public class User extends ChatEntity{
 
-    String username;
+    public String username;
 
     public User(String username, PublicKey publicKey) {
         this.username = username;

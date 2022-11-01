@@ -8,9 +8,9 @@ import java.util.LinkedList;
 
 public class Group extends ChatEntity{
 
-    String name;
-    User[] participants;
-    byte[] privateKey;
+    public String name;
+    public User[] participants;
+    public byte[] privateKey;
 
     public Group(String name, User[] participants, PublicKey groupPublicKey, PrivateKey groupPrivateKey) {
         this.name = name;

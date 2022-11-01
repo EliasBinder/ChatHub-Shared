@@ -9,10 +9,10 @@ import java.util.LinkedList;
 public class Group extends ChatEntity{
 
     String name;
-    LinkedList<User> participants;
+    User[] participants;
     byte[] privateKey;
 
-    public Group(String name, LinkedList<User> participants, PublicKey groupPublicKey, PrivateKey groupPrivateKey) {
+    public Group(String name, User[] participants, PublicKey groupPublicKey, PrivateKey groupPrivateKey) {
         this.name = name;
         this.participants = participants;
         if (publicKey != null)
@@ -25,7 +25,7 @@ public class Group extends ChatEntity{
         return name;
     }
 
-    public LinkedList<User> getParticipants() {
+    public User[] getParticipants() {
         return participants;
     }
 

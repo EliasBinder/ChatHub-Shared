@@ -8,6 +8,6 @@ import java.util.LinkedList;
 public class HandshakeResponseEvent implements ServerEvent {
 
     public String uuid;
-    public LinkedList<ChatEntity> chats;
+    public ChatEntity[] chats;
 
 }

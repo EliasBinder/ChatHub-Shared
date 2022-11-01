@@ -11,7 +11,8 @@ public class User extends ChatEntity{
 
     public User(String username, PublicKey publicKey) {
         this.username = username;
-        this.publicKey = CryptManager.publicKeyToBytes(publicKey);
+        if (publicKey != null)
+            this.publicKey = CryptManager.publicKeyToBytes(publicKey);
     }
 
     public String getUsername() {

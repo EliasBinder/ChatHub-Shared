@@ -15,8 +15,10 @@ public class Group extends ChatEntity{
     public Group(String name, LinkedList<User> participants, PublicKey groupPublicKey, PrivateKey groupPrivateKey) {
         this.name = name;
         this.participants = participants;
-        this.publicKey = CryptManager.publicKeyToBytes(groupPublicKey);
-        this.privateKey = CryptManager.privateKeyToBytes(groupPrivateKey);
+        if (publicKey != null)
+            this.publicKey = CryptManager.publicKeyToBytes(groupPublicKey);
+        if (privateKey != null)
+            this.privateKey = CryptManager.privateKeyToBytes(groupPrivateKey);
     }
 
     public String getName() {

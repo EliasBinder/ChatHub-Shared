@@ -16,10 +16,8 @@ public class Group extends ChatEntity implements Serializable {
     public Group(String name, User[] participants, PublicKey groupPublicKey, PrivateKey groupPrivateKey) {
         this.name = name;
         this.participants = participants;
-        if (publicKey != null)
-            this.publicKey = CryptManager.publicKeyToBytes(groupPublicKey);
-        if (privateKey != null)
-            this.privateKey = CryptManager.privateKeyToBytes(groupPrivateKey);
+        this.publicKey = CryptManager.publicKeyToBytes(groupPublicKey);
+        this.privateKey = CryptManager.privateKeyToBytes(groupPrivateKey);
     }
 
     public String getName() {

@@ -12,6 +12,8 @@ public class Group extends ChatEntity implements Serializable {
     public String name;
     public User[] participants;
     public byte[] privateKey;
+    public String UUID;
+    public byte[] publicKey;
 
     public Group(String name, User[] participants, PublicKey groupPublicKey, PrivateKey groupPrivateKey) {
         this.name = name;
@@ -51,4 +53,20 @@ public class Group extends ChatEntity implements Serializable {
     }
 
 
+    public String getUUID() {
+        return UUID;
+    }
+
+    public PublicKey getPublicKey() throws Exception {
+        return CryptManager.bytesToPublicKey(publicKey);
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (obj instanceof ChatEntity) {
+            Group chatEntity = (Group) obj;
+            return chatEntity.getUUID().equals(UUID);
+        }
+        return false;
+    }
 }

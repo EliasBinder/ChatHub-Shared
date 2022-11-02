@@ -20,16 +20,9 @@ public class MessageEvent implements ClientEvent, ServerEvent {
     public byte[] encryptedMessageObject; //encrypted <? implements Message> object
 
     public MessageEvent(String senderUUID, ChatEntity receiverUUID, Message message) throws Exception {
-        PublicKey recPubKey = null;
-        if (receiverUUID instanceof User) {
-            this.receiverUUID = ((User) receiverUUID).getUUID();
-            recPubKey = ((User) receiverUUID).getPublicKey();
-        }else if (receiverUUID instanceof Group) {
-            this.receiverUUID = ((Group) receiverUUID).getUUID();
-            recPubKey = ((Group) receiverUUID).getPublicKey();
-        }
+        this.receiverUUID = receiverUUID.getUUID();
         this.senderUUID = senderUUID;
-        this.encryptedMessageObject = ObjectByteConverter.serialize(CryptManager.encrypt(message, recPubKey));
+        this.encryptedMessageObject = ObjectByteConverter.serialize(CryptManager.encrypt(message, receiverUUID.getPublicKey()));
     }
 
     public String getReceiverUUID() {

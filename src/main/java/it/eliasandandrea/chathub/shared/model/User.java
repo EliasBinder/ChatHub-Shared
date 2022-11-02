@@ -9,8 +9,6 @@ import java.security.PublicKey;
 public class User extends ChatEntity implements Serializable {
 
     public String username;
-    public String UUID;
-    public byte[] publicKey;
 
     public User(String username, PublicKey publicKey) {
         this.username = username;
@@ -20,22 +18,5 @@ public class User extends ChatEntity implements Serializable {
 
     public String getUsername() {
         return username;
-    }
-
-    public String getUUID() {
-        return UUID;
-    }
-
-    public PublicKey getPublicKey() throws Exception {
-        return CryptManager.bytesToPublicKey(publicKey);
-    }
-
-    @Override
-    public boolean equals(Object obj) {
-        if (obj instanceof User) {
-            User chatEntity = (User) obj;
-            return chatEntity.getUUID().equals(UUID);
-        }
-        return false;
     }
 }

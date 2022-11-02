@@ -4,6 +4,6 @@ import it.eliasandandrea.chathub.shared.protocol.Message;
 
 public class ImageMessage implements Message {
 
-    byte[] image;
+    public byte[] image;
 
 }

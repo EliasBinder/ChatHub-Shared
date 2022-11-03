@@ -10,11 +10,12 @@ import java.util.LinkedList;
 public class Group extends ChatEntity implements Serializable {
 
     public String name;
-    public LinkedList<User> participants;
+    public LinkedList<String> participantsUUIDs;
     public byte[] privateKey;
 
     public Group(String name, PublicKey groupPublicKey, PrivateKey groupPrivateKey) {
         this.name = name;
+        this.participantsUUIDs = new LinkedList<>();
         this.publicKey = CryptManager.publicKeyToBytes(groupPublicKey);
         this.privateKey = CryptManager.privateKeyToBytes(groupPrivateKey);
     }
@@ -23,8 +24,8 @@ public class Group extends ChatEntity implements Serializable {
         return name;
     }
 
-    public LinkedList<User> getParticipants() {
-        return participants;
+    public LinkedList<String> getParticipantsUUIDs() {
+        return participantsUUIDs;
     }
 
     public PrivateKey getPrivateKey() throws Exception {

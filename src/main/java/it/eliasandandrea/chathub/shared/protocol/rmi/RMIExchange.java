@@ -1,12 +1,13 @@
 package it.eliasandandrea.chathub.shared.protocol.rmi;
 
-import it.eliasandandrea.chathub.shared.protocol.ClientEvent;
-import it.eliasandandrea.chathub.shared.protocol.ServerEvent;
+import it.eliasandandrea.chathub.shared.crypto.EncryptedObjectPacket;
 
 import java.rmi.Remote;
 
 public interface RMIExchange extends Remote {
 
-    ServerEvent sendMessage(ClientEvent evt);
+    //response: ServerEvent
+    //parameter: ClientEvent
+    EncryptedObjectPacket sendMessage(EncryptedObjectPacket evt);
 
 }

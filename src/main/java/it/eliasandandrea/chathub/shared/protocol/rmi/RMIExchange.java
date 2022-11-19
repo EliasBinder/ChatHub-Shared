@@ -8,6 +8,6 @@ public interface RMIExchange extends Remote {
 
     //response: ServerEvent
     //parameter: ClientEvent
-    Packet sendMessage(Packet evt);
+    Packet sendMessage(Packet evt, String senderUUID);
 
 }

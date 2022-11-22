@@ -8,7 +8,7 @@ public final class SocketStreams {
     private SocketStreams() {
     }
 
-    public static byte[] readFully(final DataInputStream dis) {
+    public static byte[] readFully(final DataInputStream dis) throws EOFException, IOException {
         try {
             int messageLength = dis.readInt();
             return dis.readNBytes(messageLength);
@@ -18,7 +18,7 @@ public final class SocketStreams {
         return null;
     }
 
-    public static Serializable readObject(final DataInputStream dis) {
+    public static Serializable readObject(final DataInputStream dis) throws EOFException, IOException {
         byte[] data = readFully(dis);
         return (Serializable) ObjectByteConverter.deserialize(data);
     }
